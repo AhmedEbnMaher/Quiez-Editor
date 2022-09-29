@@ -1,20 +1,21 @@
 @import'../../assets/scss/variables.scss';
-.new-task-wrapper{
-       height: 87vh;
-    overflow-y: auto;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none;
- .new-task-wrapper-content{
-    height: 98vh;
-  
+.new-quiz-wrapper{
+    margin-top: 15vh;
+    margin-bottom: 20vh;
+    .tab-view{
+        font-size: 12px;
+        font-weight: 600;
+        color: rgb(54, 52, 52);
+        cursor: pointer;
     }
-.label-width{
-    width: 130px;
+    .twitter-bs-wizard-pager-link{
+      list-style: none ;
+      display: flex;
+      justify-content: space-between;
+      margin-right: 30px;
+    }
+   
+  
+    
 }
-.button-color-bc{
-    background-color: $task-main-color;
-}
-.button-color-bc:hover{
-    background-color: $task-main-color;
-}
-}
+

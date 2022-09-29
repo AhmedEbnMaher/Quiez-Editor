@@ -1,4 +1,4 @@
-import {GET_QUIZS,GET_ONE_QUIZS} from './actionTypes'
+import {GET_QUIZS,GET_ONE_QUIZS,CREATE_QUIZ} from './actionTypes'
 export function getQuizs() {
     return async dispatch => {
       const response = await fetch('http://localhost:3000/quizs/')
@@ -9,12 +9,28 @@ export function getQuizs() {
           payload,
         })
       }}
-      export function getOneQuizs(id) {
+      export const creatNewQuiz = val => {
+        return async dispatch => {
+          const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(val),
+          }
+          const response = await fetch('http://localhost:3000/quizs', requestOptions)
+          const payload = await response.json()
+      
+          dispatch({
+            type: CREATE_QUIZ,
+            payload,
+          })
+        }
+      }
+      export function getSetNewQuiz(quiz) {
        
         return async dispatch => {
           const response = await fetch(`http://localhost:3000/quizs/${id}`)
           let payload = await response.json()
-    console.log('we here',payload)
+    
             dispatch({
               type: GET_ONE_QUIZS,
               payload,

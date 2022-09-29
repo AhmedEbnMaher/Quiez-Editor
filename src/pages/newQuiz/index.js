@@ -1,213 +1,234 @@
 import React,{useEffect, useState} from 'react'
-import CreatableSelect from 'react-select/creatable';
-import { useHistory } from 'react-router-dom'
-import DatePicker from 'react-datepicker'
-import "react-datepicker/dist/react-datepicker.css"
 import './index.scss'
-import {
-  Row,
-  Col,
-  Card,
-  CardBody,
-  CardTitle,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-  Button,
-} from 'reactstrap'
-
+import { Row, Col, Card, CardBody, TabContent, TabPane, Progress} from "reactstrap";
+import { Link } from "react-router-dom";
+import QuizDetails from '../../components/quiz-details'
+import QuizNav from '../../components/new-quiz-nav';
+import QuizQuestions from '../../components/quiz-question';
+import { useDispatch } from 'react-redux';
+import {creatNewQuiz} from '../../store/landingPage/actions'
 const NewQuiz = props => {
-  const history = useHistory()
-  const [startDate, setstartDate] = useState(new Date())
-  const [endDate, setendDate] = useState(new Date())
-  const[taskName,setTaskName]=useState('')
-  const[taskDescription,setTaskDescription]=useState('')
-  const[taskStatus,setTaskStatus]=useState('')
-  const[taskResposable,setTaskResposable]=useState('')
-  const[taskPriority,setTaskPriority]=useState('')
-  const[active,setActive]=useState(true)
-  const startDateChange = date => {
-    const newDate=new Date(date).getTime();
-    setstartDate(newDate)
-  }
 
-  const endDateChange = date => {
-    const newDate=new Date(date).getTime();
-    setendDate(newDate)
-  }
+  const [quizTitle,setQuizTitle]= useState('')
+  const [quizDescription,setQuizDescription]= useState('')
+  const [quizUrl,setQuizUrl]= useState('')
+  const [quizScore,setQuizScore]= useState()
+  const [questionTwo,setQuestionTwo]= useState('')
+  const [questionThree,setQuestionThree]= useState('')
+  const [questionFour,setQuestionFour]= useState('')
+  const [questionFive,setQuestionFive]= useState('')
+  const [questionOne,setQuestionOne]= useState('')
+  const [activeTabProgress, setactiveTabProgress] = useState(1);
+  const [progressValue, setprogressValue] = useState(25);
+  const [tabOne,setTabeOne]= useState(false)
+  const [tabTwo,setTabeTwo]= useState(false)
+  const [tabThree,setTabeThree]= useState(false)
+  const [tabFour,setTabeFour]= useState(false)
+  const [tabFive,setTabeFive]= useState(false)
+  const [tabSix,setTabeSix]= useState(false)
+  const [processCompleted,setProcessCompleted]= useState(false)
+  const newQuiz=  {
 
+    title: quizTitle,
+    description: quizDescription,
+    finalscore: quizScore,
+    url: quizUrl,
+    questions:[questionOne,questionTwo,questionThree,questionFour,questionFive]
+  
+  }
+  const dispatch=useDispatch();
 useEffect(()=>{
-if(taskPriority!==''&&taskResposable !==''&&taskStatus!==''&&taskName!==''&&taskDescription!=='')
+
+if(questionOne!=='' && questionTwo!=='' && questionThree!=='' && questionFour!=='' && questionFive!=='' )
 {
-  setActive(false)
+  setProcessCompleted(true)
 }
-},[taskPriority,taskResposable,taskStatus,taskName,taskDescription])
+
+},[questionOne,questionTwo,questionThree,questionFour,questionFive])
+function toggleTabProgress(tab) {
+if (activeTabProgress !== tab) {
+    if(tab >= 1 && tab <=7 ){
+
+      setactiveTabProgress(tab);
+       
+      if(tab === 1) {  setprogressValue(5) }
+      if(tab === 2) {  setprogressValue(10) }
+      if(tab === 3) {  setprogressValue(20) }
+      if(tab === 4) {  setprogressValue(40) }
+      if(tab === 5) {  setprogressValue(60) }
+      if(tab === 6) {  setprogressValue(80) }
+      if(tab === 7) {  setprogressValue(100) }
+   
+    }
+}
+}
 
   return (
-<div className='new-task-wrapper'>
-<Row className='new-task-wrapper-content w-100'>
-              <Col lg="12">
-                <Card >
-                  <CardBody>
-                    <CardTitle className="d-flex">
-                    Add New Task
-                    </CardTitle>
+    <div className='container'>
+      <div className='new-quiz-wrapper'>
+        <Row>
+      <Col lg="12">          
+                                <Card>
+                                    <CardBody>
+                                        <h4 className="card-title mb-4">Creating New Quiz</h4>
 
-            
-                    <Form>
-                      <FormGroup className="mb-3" row>
-                        <Label htmlFor="taskName" className="col-form-label ml-3 label-width">
-                          Task Name
-                        </Label>
-                        <Col lg="8">
-                          <Input
-                            id="taskName"
-                            name="taskname"
-                            type="text"
-                            value={taskName}
-                            className="form-control"
-                            placeholder="task-name"
-                            onChange={e => {
-                            setTaskName(e.target.value)
-                            }}
-                          />
-                        </Col>
-                      </FormGroup>
-                      <FormGroup className="mb-3" row>
-                        <Label htmlFor="taskdesc" className="col-form-label ml-3 label-width">
-                          Description
-                        </Label>
-                        <Col lg="8">
-                          <textarea
-                            className="form-control"
-                        
-                            value={taskDescription}
-                            id="taskdesc"
-                            rows="3"
-                            placeholder="Enter task Description..."
-                            onChange={e => {
-                            setTaskDescription(e.target.value)
-                            }}
-                          />
-                        </Col>
-            
-                      </FormGroup>
-                      <FormGroup className="mb-3" row>
-                        <Label htmlFor="startdate" className="col-form-label ml-3 label-width">
-                          Start Date
-                        </Label>
-                        <Col lg='8'>
-              <Row>
-                <Col >
-                  <DatePicker
-                  id='startdate'
-                    className="form-control"
-                    selected={startDate}
-                    onChange={startDateChange}
-                  />
-                </Col>
-                <Label htmlFor="endtdate" className="col-form-label ml-3 label-width">
-                          End Date
-                        </Label>
-                <Col >
-                  <DatePicker
-                  id='enddate'
-                    className="form-control"
-                    selected={endDate}
-                    onChange={endDateChange}
-                  />
-                </Col>
-              </Row>
-            </Col>
-                      </FormGroup>
-                      <FormGroup className="mb-3" row>
-                        <Label htmlFor="taskpriority" className="col-form-label ml-3 label-width">
-                          Task Priority
-                        </Label>
-                        <Col lg="8">
-                        <CreatableSelect
-            placeholder='Select priority'
-            isClearable
-             onChange={(e)=>{
-               setTaskPriority(e.label)
-              
-             }}
-		        options={props.priorities}
-		    
-			/>
-                        </Col>
-                      </FormGroup>
-                      <FormGroup className="mb-3" row>
-                        <Label htmlFor="taskResposable" className="col-form-label ml-3 label-width">
-                          Task Responsable
-                        </Label>
-                        <Col lg="8">
-                        <CreatableSelect
-                 placeholder='Select Responsable'
-                 isClearable
-                 onChange={(e)=>{
-                  setTaskResposable(e.label)
-                 }}
-		             options={props.resposables}
-		    
-		             	/>
-                        </Col>
-                      </FormGroup>
-                      <FormGroup className="mb-3" row>
-                        <Label htmlFor="taskStatus" className="col-form-label ml-3 label-width">
-                          Task Status
-                        </Label>
-                        <Col lg="8">
-                        <CreatableSelect
-                 placeholder='Select Status'
-                 isClearable
-                 onChange={(e)=>{
-                   setTaskStatus(e.label)
-                 }}
-		             options={props.status}
-		    
-		             	/>
-                        </Col>
-                      </FormGroup>
-                    </Form>
-                  </CardBody>
-                  <Row className="col-12  justify-content-between">
-                    <div className="col-12 col-sm-6" style={{ height: '85px' }}>
-                      <h6 className="mt-2">{props.project?.type}</h6>
-                      <p className="font-size-11">{props.project?.description}</p>
-                    </div>
-                    <Col lg="5" md="5" sm="5" className="mt-4 mb-3 d-flex justify-content-end">
-                      <Button
-                        type="button"
-                        color='primary'
-                        className="pl-2 pr-2 pt-0 pb-0 col-4 mr-4 button-color-bc"
-                        onClick={() => {
-                          history.push('/my-tasks/index')
-                        }}
-                        style={{ height: '36px' }}>
-                        Cancel
-                      </Button>
-               
-                        <Button
-                          type="submit"
-                          disabled={active}
-                          color='primary'
-                          onClick={() => {
-                            props.addTask({name:taskName,description:taskDescription,status:taskStatus,startDate:startDate,endDate:endDate,responsable:taskResposable,priority:taskPriority})
-                            history.push('/my-tasks/index')
-                          }}
-                          className='pl-3 pr-3 pt-0 pb-0 col-4 button-color-bc'
-                          style={{ height: '36px' }}>
-                          Add
-                        </Button>
-                    
-                    </Col>
-                  </Row>
-                </Card>
-              </Col>
-            </Row>
-</div>
+                                        <div id="progrss-wizard" className="twitter-bs-wizard">
+                                           <QuizNav activeTabProgress={activeTabProgress}  toggleTabProgress={toggleTabProgress}/>
+
+                                            <div id="bar" className="mt-4">
+                                                <Progress color="success" striped animated value={progressValue} />
+                                                <div className="progress-bar bg-success progress-bar-striped progress-bar-animated"></div>
+                                            </div>
+                                            <TabContent activeTab={activeTabProgress} className="twitter-bs-wizard-tab-content">
+                                                <TabPane tabId={1}>
+                                                <QuizDetails
+                                                setQuizTitle = {setQuizTitle}
+                                                setQuizDescription = {setQuizDescription}
+                                                setQuizUrl = {setQuizUrl}
+                                                setQuizScore= {setQuizScore}
+                                                quizTitle = {quizTitle}
+                                                quizDescription ={quizDescription }
+                                                quizUrl={quizUrl}
+                                                quizScore ={quizScore}
+                                                setTabeOne= {setTabeOne}
+                                                />
+                                                </TabPane>
+                                                <TabPane tabId={2}>
+                                                  <QuizQuestions  
+                                                  questionNumber={1}
+                                                  setQuestionOne = {setQuestionOne}
+                                                  setQuestionTwo = {setQuestionTwo}
+                                                  setQuestionThree = {setQuestionThree}
+                                                  setQuestionFour={setQuestionFour}
+                                                  setQuestionFive = {setQuestionFive}
+                                                  setTabeTwo={setTabeTwo}
+                                                  setTabeTree={setTabeThree}
+                                                  setTabeFour={setTabeFour}
+                                                  setTabeFive={setTabeFive}
+                                                  setTabeSix= {setTabeSix}
+                                                  />
+                                                </TabPane>
+                                                <TabPane tabId={3}>
+                                                <QuizQuestions
+                                                  questionNumber={2}
+                                                  setQuestionOne = {setQuestionOne}
+                                                  setQuestionTwo = {setQuestionTwo}
+                                                  setQuestionThree = {setQuestionThree}
+                                                  setQuestionFour={setQuestionFour}
+                                                  setQuestionFive = {setQuestionFive}
+                                                  setTabeTwo={setTabeTwo}
+                                                  setTabeTree={setTabeThree}
+                                                  setTabeFour={setTabeFour}
+                                                  setTabeFive={setTabeFive}
+                                                  setTabeSix= {setTabeSix}
+                                                  />
+                                                </TabPane>
+                                                <TabPane tabId={4}>
+                                                <QuizQuestions 
+                                                 questionNumber={3}
+                                                 setQuestionOne = {setQuestionOne}
+                                                 setQuestionTwo = {setQuestionTwo}
+                                                 setQuestionThree = {setQuestionThree}
+                                                 setQuestionFour={setQuestionFour}
+                                                 setQuestionFive = {setQuestionFive}
+                                                 setTabeTwo={setTabeTwo}
+                                                  setTabeTree={setTabeThree}
+                                                  setTabeFour={setTabeFour}
+                                                  setTabeFive={setTabeFive}
+                                                  setTabeSix= {setTabeSix}
+                                                 />
+                                                   </TabPane>
+                                                   <TabPane tabId={5}>
+                                                   <QuizQuestions  
+                                                   questionNumber={4}
+                                                   setQuestionOne = {setQuestionOne}
+                                                   setQuestionTwo = {setQuestionTwo}
+                                                   setQuestionThree = {setQuestionThree}
+                                                   setQuestionFour={setQuestionFour}
+                                                   setQuestionFive = {setQuestionFive}
+                                                   setTabeTwo={setTabeTwo}
+                                                  setTabeTree={setTabeThree}
+                                                  setTabeFour={setTabeFour}
+                                                  setTabeFive={setTabeFive}
+                                                  setTabeSix= {setTabeSix}
+                                                   />
+                                                   </TabPane>
+                                                   <TabPane tabId={6}>
+                                                   <QuizQuestions 
+                                                    questionNumber={5}
+                                                    setQuestionOne = {setQuestionOne}
+                                                    setQuestionTwo = {setQuestionTwo}
+                                                    setQuestionThree = {setQuestionThree}
+                                                    setQuestionFour={setQuestionFour}
+                                                    setQuestionFive = {setQuestionFive}
+                                                    setTabeTwo={setTabeTwo}
+                                                  setTabeTree={setTabeThree}
+                                                  setTabeFour={setTabeFour}
+                                                  setTabeFive={setTabeFive}
+                                                  setTabeSix= {setTabeSix}
+                                                    />
+                                                   </TabPane>
+                                                <TabPane tabId={7}>
+                                                    <div className="row justify-content-center">
+                                                        <Col lg="6">
+                                                            <div className="text-center">
+                                                                <div className="mb-4">
+                                                                    <i className="mdi mdi-check-circle-outline text-success display-4"></i>
+                                                                </div>
+                                                                <div>
+                                                                    <h5>Confirm Detail</h5>
+                                                                    <p className="text-muted">If several languages coalesce, the grammar of the resulting</p>
+                                                                </div>
+                                                            </div>
+                                                        </Col>
+                                                    </div>
+                                                </TabPane>
+                                            </TabContent>
+                                            <ul className="pager wizard twitter-bs-wizard-pager-link mt-4">
+                                                <li className={activeTabProgress === 1 ? "previous disabled" : "previous"}><Link to="#" onClick={() => { toggleTabProgress(activeTabProgress - 1);} }>Previous</Link></li>
+                                                <li className={activeTabProgress === 7? "next disabled" : "next"}><Link to="#" onClick={() => { 
+                                                       
+                                                       if(tabOne&&activeTabProgress===1&&tabTwo===false )
+                                                       {
+                                                        
+                                                        toggleTabProgress(2)
+                                                       }else if(tabTwo&&activeTabProgress===2 &&tabThree===false)
+                                                       {
+                                                        
+                                                        toggleTabProgress(activeTabProgress + 1)
+                                                       }else if(tabThree &&activeTabProgress ===3  && tabFour === false)
+                                                       {
+                                                      
+                                                        toggleTabProgress(activeTabProgress + 1)
+                                                       }else if(tabFour&&activeTabProgress===4 && tabFive === false)
+                                                       {
+                                                        
+                                                        toggleTabProgress(activeTabProgress + 1) 
+                                                       }else if(tabFive&&activeTabProgress===5 && tabSix === false)
+                                                       {
+                                                        
+                                                        toggleTabProgress(activeTabProgress + 1)
+                                                       }else if(tabSix&&activeTabProgress===6 && questionFive!=='')
+                                                       {
+                                                       
+                                                        toggleTabProgress(activeTabProgress + 1)
+                                                       }
+                                                       else if(processCompleted && tabSix=== true)
+                                                       {
+                                                     
+                                                        dispatch(creatNewQuiz(newQuiz))
+                                                      
+                                                       }
+                                                       ;} }>{processCompleted?'Create':' Next'}</Link></li>
+                                            </ul>
+                                        </div>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        </Row>
+      </div>
+   </div>
+
   )
 }
 

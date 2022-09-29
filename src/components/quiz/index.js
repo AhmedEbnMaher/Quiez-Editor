@@ -6,7 +6,7 @@ import { Col, Card, CardBody, Media ,Badge} from "reactstrap";
 
 
 const Quiz = ({Quiz}) => {
-    console.log("Quiz",Quiz)
+
     const history =useHistory()
     const openInNewTab = url => {
         window.open(url, '_blank', 'noopener,noreferrer');
