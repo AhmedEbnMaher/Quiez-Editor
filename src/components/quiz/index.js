@@ -3,10 +3,13 @@ import  React  from 'react';
 import './index.scss'
 import {useHistory} from "react-router-dom";
 import { Col, Card, CardBody, Media ,Badge} from "reactstrap";
+import {BiPencil} from 'react-icons/bi'
+import { useDispatch } from 'react-redux';
+import { getOneQuiz } from '../../store/landingPage/actions';
 
 
 const Quiz = ({Quiz}) => {
-
+    const dispatch = useDispatch()
     const history =useHistory()
     const openInNewTab = url => {
         window.open(url, '_blank', 'noopener,noreferrer');
@@ -19,7 +22,18 @@ const Quiz = ({Quiz}) => {
                  <Col xl="4" sm="6" key={"_quiz_" + key} className='mt-4' >
                      <Card>
                          <CardBody>
-
+                             <Media>
+                                <div className='edit-content'>
+                                <button onClick={()=>{
+                                    dispatch(getOneQuiz(quiz.id))
+                                    setTimeout(()=>{
+                                        history.push( {pathname: `/quizs/quez-edit`,
+                                        query: quiz.id,})
+                                    },100)
+                                  
+                                }} className='edit-button'><BiPencil/></button>
+                                </div>
+                             </Media>
                                  <Media className="overflow-hidden" body>
                                      <h6 className="text-truncate">Quiz Name: <span className='text-muted'>{quiz.title}</span></h6>
                                      <p className="text-muted mb-2"><span className='font-weight-bold mr-2'>Discription:</span>{quiz.description}</p>

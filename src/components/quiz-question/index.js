@@ -7,12 +7,12 @@ import { Row, Col, Label , Input, Form, FormGroup } from "reactstrap";
     setQuestionFive,
     setTabeTwo,setTabeTree,
     setTabeFour,setTabeFive,
-    setTabeSix}) {
-     const [newQuestion,setNewQuestion]=useState('')
-     const [answerOne,setAnswerOne]=useState('')
-     const [answerTwo,setAnswerTwo]=useState('')
-     const [answerThree,setAnswerThree]=useState('')
-     const [answerFour,setAnswerFour]=useState('')
+    setTabeSix,questionData}) {
+     const [newQuestion,setNewQuestion]=useState(questionData?questionData.questionvalue:'')
+     const [answerOne,setAnswerOne]=useState(questionData?questionData.answers[0].text:'')
+     const [answerTwo,setAnswerTwo]=useState(questionData?questionData.answers[1].text:'')
+     const [answerThree,setAnswerThree]=useState(questionData?questionData.answers[2].text:'')
+     const [answerFour,setAnswerFour]=useState(questionData?questionData.answers[3].text:'')
      const [falseFeadBack,setFalseFeadBack]=useState('')
      const [TrueFeadBack,setTrueFeadBack]=useState('')
      const [questionAnswer,setQuestionAnswer]=useState('Answer One')

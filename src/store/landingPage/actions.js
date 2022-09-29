@@ -25,7 +25,7 @@ export function getQuizs() {
           })
         }
       }
-      export function getSetNewQuiz(quiz) {
+      export function getOneQuiz(id) {
        
         return async dispatch => {
           const response = await fetch(`http://localhost:3000/quizs/${id}`)
