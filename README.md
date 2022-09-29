@@ -3,7 +3,7 @@ important to read
 to run this project you will need this 
 
 
-1=> after opening the project on your editor open the first terminal and  
+1=> after opening the project on your editor open the first terminal and  run npm install  
 
 
 => use npx json-server --watch db.json
