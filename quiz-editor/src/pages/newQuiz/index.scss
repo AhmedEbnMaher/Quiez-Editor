@@ -1,0 +1,20 @@
+@import'../../assets/scss/variables.scss';
+.new-task-wrapper{
+       height: 87vh;
+    overflow-y: auto;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;
+ .new-task-wrapper-content{
+    height: 98vh;
+  
+    }
+.label-width{
+    width: 130px;
+}
+.button-color-bc{
+    background-color: $task-main-color;
+}
+.button-color-bc:hover{
+    background-color: $task-main-color;
+}
+}

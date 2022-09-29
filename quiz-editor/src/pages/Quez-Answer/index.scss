@@ -1,0 +1,26 @@
+.wraper{
+    margin-top: 15vh;
+    margin-bottom: 20vh;
+    .question{
+     font-size: 18px;
+     font-weight: bold;
+     margin-bottom: 30px;
+     background-color: rgb(115, 165, 240);
+     padding: 15px;
+     border-radius: 5px;
+     box-shadow: 1px 1px 1px;
+     width: 80%;
+     @media (max-width:768px) {
+        width:100%;
+     }
+    
+    }
+    .fead-back{
+     width: 40%;
+     border-radius: 5px;
+     @media (max-width:768px) {
+        width:80%;
+     }
+    }
+  
+}
